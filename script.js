@@ -10,10 +10,8 @@ const plaer = {
     y: map.height - grid * 4,
     width: grid,
     height: grid * 3,
-    dx: pSpeed,
-    dy: pSpeed,
-    collor: 'rgb( 120, 0, 0)',
-    isResetted: false,
+    dx: 0,
+    dy: 0,
 }
 
 function renderMap() {
@@ -35,6 +33,7 @@ function moveP() {
 
 function loop() {
     clearMap()
+
     renderP()
     moveP()
     
