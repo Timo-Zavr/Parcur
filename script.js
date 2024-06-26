@@ -1,9 +1,13 @@
-const map = document.querySelector("#game");
-const canvas = map.getContext('2d');
-canvas.fillStyle = 'rgb( 0, 128, 0)';
+const map = document.querySelector("#game")
+const canvas = map.getContext('2d')
+canvas.fillStyle = 'rgb( 0, 128, 0)'
 
-const grid = 15;
+const grid = 15
+const PlaerHeight = grid * 3;
+const maxPlaerY = map.height - grid - PlaerHeight
+
 const pSpeed = 7
+const grav = 7
 
 const plaer = {
     x: grid * 10,
@@ -11,7 +15,7 @@ const plaer = {
     width: grid,
     height: grid * 3,
     dx: 0,
-    dy: 0,
+    dy: grav,
 }
 
 function renderMap() {
@@ -28,14 +32,25 @@ function renderP() {
 }
 function moveP() {
     plaer.x += plaer.dx
+}
+function gravity() {
     plaer.y += plaer.dy
+}
+function colligeWisOll() {
+    if (plaer.y < grid){
+        plaer.y = grid
+    } else if(plaer.y > maxPlaerY){
+        plaer.y = maxPlaerY
+    }
 }
 
 function loop() {
     clearMap()
 
     renderP()
+    colligeWisOll()
     moveP()
+    gravity()
     
     renderMap()
 }
@@ -51,6 +66,11 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keyup', (event) => {
     if (event.key === 'd' || event.key === 'в' || event.key === 'a' || event.key === 'ф') {
         plaer.dx = 0;
+    }
+})
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'w' || event.key === 'ц' && plaer.y > maxPlaerY) {
+        plaer.dy = -pSpeed*2
     }
 })
 
@@ -69,4 +89,4 @@ function fs(){
     }
 }
 
-requestAnimationFrame(loop);
+requestAnimationFrame(loop)
