@@ -8,6 +8,7 @@ const maxPlaerY = map.height - grid - PlaerHeight
 
 const pSpeed = 7
 const grav = 7
+let colide = true
 
 const plaer = {
     x: grid * 10,
@@ -39,8 +40,12 @@ function gravity() {
 function colligeWisOll() {
     if (plaer.y < grid){
         plaer.y = grid
+        let colide = false
     } else if(plaer.y > maxPlaerY){
         plaer.y = maxPlaerY
+        colide = true
+    } else {
+        colide = false
     }
 }
 
@@ -72,8 +77,15 @@ document.addEventListener('keyup', (event) => {
     }
 })
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'w' || event.key === 'ц' && plaer.y > maxPlaerY) {
-        plaer.dy = -pSpeed*4
+    if (event.key === 'w' || event.key === 'ц' && colide === true) {
+        plaer.dy = -grav*4
+        colide = false
+    }
+})
+document.addEventListener('keyup', (event) => {
+    if (event.key === 'w' || event.key === 'ц' ) {
+        plaer.dy = grav
+        colide = true
     }
 })
 
