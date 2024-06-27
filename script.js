@@ -6,10 +6,12 @@ const grid = 15
 const PlaerHeight = grid * 3;
 const maxPlaerY = map.height - grid - PlaerHeight
 
-let jumping = false
 const pSpeed = 10
 const grav = 7
+
+let Level = 2
 let colide = true
+let jumping = false
 
 const plaer = {
     x: grid * 10,
@@ -39,6 +41,29 @@ const block3 = {
     height: grid,
 }
 
+function levelUp() {
+    if (Level === 1){
+        block1.x = map.width / 2
+        block1.y = map.height - map.height / 4
+
+        block2.x = map.width - grid * 21
+        block2.y = map.height / 2
+
+        block3.x = grid
+        block3.y = map.height - map.height / 3
+    }
+    if (Level === 2){
+        block1.x = grid
+        block1.y = map.height / 4
+
+        block2.x = map.width / 2 - grid * 15
+        block2.y = map.height / 2
+
+        block3.x = map.width - grid - block3.width
+        block3.y = map.height - map.height / 4
+    }
+}
+
 function renderMap() {
     canvas.fillRect(0, 0, map.width, grid); // Верхняя граница
     canvas.fillRect(0, map.height - grid, map.width, grid) // Нижняя граница
@@ -48,6 +73,7 @@ function renderMap() {
 function clearMap() {
     canvas.clearRect(0, 0, map.width, map.height);
 }
+
 function renderP() {
     canvas.fillRect(plaer.x, plaer.y, plaer.width, plaer.height)
 }
@@ -105,7 +131,8 @@ function colligeWisOll() {
 
 function loop() {
     clearMap()
-
+    
+    levelUp()
     renderP()
     renderBs()
 
