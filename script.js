@@ -6,7 +6,8 @@ const grid = 15
 const PlaerHeight = grid * 3;
 const maxPlaerY = map.height - grid - PlaerHeight
 
-const pSpeed = 7
+let jumping = false
+const pSpeed = 10
 const grav = 7
 let colide = true
 
@@ -17,6 +18,25 @@ const plaer = {
     height: grid * 3,
     dx: 0,
     dy: grav,
+}
+
+const block1 = {
+    x: map.width / 2,
+    y: map.height - map.height / 4,
+    width: grid * 10,
+    height: grid,
+}
+const block2 = {
+    x: map.width - grid * 21,
+    y: map.height / 2,
+    width: grid * 20,
+    height: grid,
+}
+const block3 = {
+    x: grid,
+    y: map.height - map.height / 3,
+    width: grid * 15,
+    height: grid,
 }
 
 function renderMap() {
@@ -31,27 +51,55 @@ function clearMap() {
 function renderP() {
     canvas.fillRect(plaer.x, plaer.y, plaer.width, plaer.height)
 }
+function renderBs() {
+    canvas.fillRect(block1.x, block1.y, block1.width, block1.height)
+    canvas.fillRect(block2.x, block2.y, block2.width, block2.height)
+    canvas.fillRect(block3.x, block3.y, block3.width, block3.height)
+}
 function moveP() {
     plaer.x += plaer.dx
-}
-function gravity() {
     plaer.y += plaer.dy
+}
+function isCollides(object1, object2) {
+    const width1 = object1.x + object1.width;
+    const width2 = object2.x + object2.width;
+    const height1 = object1.y + object1.height;
+    const height2 = object2.y + object2.height;
+    return object1.x < width2
+        && object2.x < width1
+        && object1.y < height2
+        && object2.y < height1;
 }
 function colligeWisOll() {
     if (plaer.y < grid){
         plaer.y = grid
-        let colide = false
+        jumping = true
+        colide = false
     } else if(plaer.y > maxPlaerY){
         plaer.y = maxPlaerY
         colide = true
-    } else if (plaer.y > grid && plaer.y < maxPlaerY){
-        colide = false
-    }
+    }    
 
     if (plaer.x < grid){
         plaer.x = grid
     } else if (plaer.x > map.width - grid*2){
         plaer.x = map.width - grid*2
+    }
+
+    if (isCollides(plaer, block1)) {
+        plaer.dy = plaer.dy;
+        plaer.y = block1.y - plaer.height;
+        colide = true
+    }
+    if (isCollides(plaer, block2)) {
+        plaer.dy = plaer.dy;
+        plaer.y = block2.y - plaer.height;
+        colide = true
+    }
+    if (isCollides(plaer, block3)) {
+        plaer.dy = plaer.dy;
+        plaer.y = block3.y - plaer.height;
+        colide = true
     }
 }
 
@@ -59,8 +107,8 @@ function loop() {
     clearMap()
 
     renderP()
+    renderBs()
 
-    gravity()
     moveP()
 
     colligeWisOll()
@@ -83,7 +131,6 @@ document.addEventListener('keyup', (event) => {
     }
 })
 
-let jumping = false
 
 document.addEventListener('keydown', (event) => {
     if ((event.key === 'w' || event.key === 'ц') && colide === true && !jumping) {
