@@ -9,7 +9,8 @@ const maxPlaerY = map.height - grid - PlaerHeight
 const pSpeed = 10
 const grav = 7
 
-let Level = 2
+const L = document.querySelector("#level")
+let Level = parseInt(L.textContent)
 let colide = true
 let jumping = false
 
@@ -20,6 +21,19 @@ const plaer = {
     height: grid * 3,
     dx: 0,
     dy: grav,
+}
+const coin = {
+    x: grid *2,
+    y: grid *2,
+    width: grid,
+    height: grid
+
+}
+const spine = {
+    x: grid * 10,
+    y: grid * 10,
+    width: 5,
+    height: 5
 }
 
 const block1 = {
@@ -45,22 +59,30 @@ function levelUp() {
     if (Level === 1){
         block1.x = map.width / 2
         block1.y = map.height - map.height / 4
-
         block2.x = map.width - grid * 21
         block2.y = map.height / 2
-
         block3.x = grid
         block3.y = map.height - map.height / 3
+
+        coin.x = block2.x + grid * 10
+        coin.y = block2.y - grid * 3
+
+        spine.x = block2.x + grid * 5
+        spine.y = block2.y - spine.height
     }
     if (Level === 2){
         block1.x = grid
         block1.y = map.height / 4
-
         block2.x = map.width / 2 - grid * 15
         block2.y = map.height / 2
-
         block3.x = map.width - grid - block3.width
         block3.y = map.height - map.height / 4
+
+        coin.x = block1.x + grid * 4
+        coin.y = block1.y - grid * 3
+
+        spine.x = block2.x + grid * 5
+        spine.y = block2.y - spine.height
     }
 }
 
@@ -76,6 +98,10 @@ function clearMap() {
 
 function renderP() {
     canvas.fillRect(plaer.x, plaer.y, plaer.width, plaer.height)
+}
+function renderCS() {
+    canvas.fillRect(coin.x, coin.y, coin.width, coin.height)
+    canvas.fillRect(spine.x, spine.y, spine.width, spine.height)
 }
 function renderBs() {
     canvas.fillRect(block1.x, block1.y, block1.width, block1.height)
@@ -129,17 +155,34 @@ function colligeWisOll() {
     }
 }
 
+function resetGame(){
+    if (isCollides(plaer, coin)) {
+        plaer.x = grid * 10,
+        plaer.y = map.height - grid * 4,
+        Level ++
+        L.textContent = Level
+    }
+    if (isCollides(plaer, spine)) {
+        plaer.x = grid * 10,
+        plaer.y = map.height - grid * 4,
+        Level = 1
+        L.textContent = Level
+    }
+}
+
 function loop() {
     clearMap()
     
     levelUp()
     renderP()
     renderBs()
+    renderCS()
 
     moveP()
 
     colligeWisOll()
     
+    resetGame()
     renderMap()
     requestAnimationFrame(loop)
 }

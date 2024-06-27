@@ -5,6 +5,10 @@ body {
     margin: 0;
 }
 
+.l{
+    color: white;
+}
+
 body {
     background-color: black;
     display: flex;
