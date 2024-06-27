@@ -47,6 +47,12 @@ function colligeWisOll() {
     } else if (plaer.y > grid && plaer.y < maxPlaerY){
         colide = false
     }
+
+    if (plaer.x < grid){
+        plaer.x = grid
+    } else if (plaer.x > map.width - grid*2){
+        plaer.x = map.width - grid*2
+    }
 }
 
 function loop() {
@@ -76,15 +82,20 @@ document.addEventListener('keyup', (event) => {
         plaer.dx = 0;
     }
 })
+
+let jumping = false
+
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'w' || event.key === 'ц' && colide === true) {
+    if ((event.key === 'w' || event.key === 'ц') && colide === true && !jumping) {
         plaer.dy = -grav*4
         colide = false
+        jumping = true
     }
 })
 document.addEventListener('keyup', (event) => {
     if (event.key === 'w' || event.key === 'ц' ) {
         plaer.dy = grav
+        jumping = false
     }
 })
 
