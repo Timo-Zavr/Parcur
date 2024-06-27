@@ -6,8 +6,12 @@ body {
 }
 
 .l{
-    position: fixed;
     color: rgb(107, 101, 101);
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    margin-left: -900px;
+    margin-top: 170px;
     z-index: 0;
 }
 
