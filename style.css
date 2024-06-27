@@ -6,11 +6,21 @@ body {
 }
 
 .l{
-    color: white;
+    position: fixed;
+    color: rgb(107, 101, 101);
+    z-index: 0;
+}
+
+p {
+    font-size: 100px;
+}
+
+canvas{
+    z-index: 2;
 }
 
 body {
-    background-color: black;
+    background-color: rgb(14, 6, 6);
     display: flex;
     align-items: center;
     justify-content: center;

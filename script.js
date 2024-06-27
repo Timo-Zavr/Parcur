@@ -1,6 +1,6 @@
 const map = document.querySelector("#game")
 const canvas = map.getContext('2d')
-canvas.fillStyle = 'rgb( 0, 128, 0)'
+canvas.fillStyle = 'rgb( 60, 100, 0)'
 
 const grid = 15
 const PlaerHeight = grid * 3;
