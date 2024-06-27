@@ -44,7 +44,7 @@ function colligeWisOll() {
     } else if(plaer.y > maxPlaerY){
         plaer.y = maxPlaerY
         colide = true
-    } else {
+    } else if (plaer.y > grid && plaer.y < maxPlaerY){
         colide = false
     }
 }
@@ -85,7 +85,6 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keyup', (event) => {
     if (event.key === 'w' || event.key === 'ц' ) {
         plaer.dy = grav
-        colide = true
     }
 })
 
