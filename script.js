@@ -48,11 +48,14 @@ function loop() {
     clearMap()
 
     renderP()
-    colligeWisOll()
-    moveP()
+
     gravity()
+    moveP()
+
+    colligeWisOll()
     
     renderMap()
+    requestAnimationFrame(loop)
 }
 
 
@@ -70,7 +73,7 @@ document.addEventListener('keyup', (event) => {
 })
 document.addEventListener('keydown', (event) => {
     if (event.key === 'w' || event.key === 'ц' && plaer.y > maxPlaerY) {
-        plaer.dy = -pSpeed*2
+        plaer.dy = -pSpeed*4
     }
 })
 
