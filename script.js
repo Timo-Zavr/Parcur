@@ -29,7 +29,14 @@ const coin = {
     height: grid
 
 }
-const spine = {
+
+const spine1 = {
+    x: grid * 10,
+    y: grid * 10,
+    width: 5,
+    height: 5
+}
+const spine2 = {
     x: grid * 10,
     y: grid * 10,
     width: 5,
@@ -67,8 +74,10 @@ function levelUp() {
         coin.x = block2.x + grid * 10
         coin.y = block2.y - grid * 3
 
-        spine.x = block2.x + grid * 5
-        spine.y = block2.y - spine.height
+        spine1.x = block2.x + grid * 5
+        spine1.y = block2.y - spine1.height
+        spine2.x = block3.x + grid * 6
+        spine2.y = block3.y - spine2.height
     }
     if (Level === 2){
         block1.x = grid
@@ -81,8 +90,26 @@ function levelUp() {
         coin.x = block1.x + grid * 4
         coin.y = block1.y - grid * 3
 
-        spine.x = block2.x + grid * 5
-        spine.y = block2.y - spine.height
+        spine1.x = block2.x + grid * 5
+        spine1.y = block2.y - spine1.height
+        spine2.x = block3.x + grid * 6
+        spine2.y = block3.y - spine2.height
+    }
+    if (Level === 3){
+        block1.x = grid * 50
+        block1.y = map.height / 6
+        block2.x = map.width - grid - block2.width * 2
+        block2.y = map.height / 2 - grid
+        block3.x = grid + block3.width
+        block3.y = map.height - map.height / 4
+
+        coin.x = block1.x + grid * 4
+        coin.y = block1.y - grid * 3
+
+        spine1.x = block2.x + grid * 5
+        spine1.y = block2.y - spine1.height
+        spine2.x = block3.x + grid * 6
+        spine2.y = block3.y - spine2.height
     }
 }
 
@@ -101,7 +128,8 @@ function renderP() {
 }
 function renderCS() {
     canvas.fillRect(coin.x, coin.y, coin.width, coin.height)
-    canvas.fillRect(spine.x, spine.y, spine.width, spine.height)
+    canvas.fillRect(spine1.x, spine1.y, spine1.width, spine1.height)
+    canvas.fillRect(spine2.x, spine2.y, spine2.width, spine2.height)
 }
 function renderBs() {
     canvas.fillRect(block1.x, block1.y, block1.width, block1.height)
@@ -162,7 +190,7 @@ function resetGame(){
         Level ++
         L.textContent = Level
     }
-    if (isCollides(plaer, spine)) {
+    if (isCollides(plaer, spine1) || isCollides(plaer, spine2)) {
         plaer.x = grid * 10,
         plaer.y = map.height - grid * 4,
         Level = 1
