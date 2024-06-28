@@ -8,7 +8,7 @@ const maxPlaerY = map.height - grid - PlaerHeight
 
 const pSpeed = 5
 const jSpeed = 5
-const JH = grid * 7
+const JH = grid
 let gravity = 5
 let jumpUp = 0
 let JumpT = true
@@ -66,15 +66,14 @@ const block3 = {
 }
 
 function jump() {
-    intervalId = setInterval(() => {
-        plaer.y += -jSpeed
+    if (jumpUp < JH){
+        plaer.dy = -jSpeed
+        jumpUp += jSpeed
+    } else{
+        jumpUp = 0
+        plaer.dy = gravity
         JumpT = false
-        jumpUp++
-    }, 30)
-    clearInterval(intervalId)
-    plaer.y += gravity
-    jumpUp = 0
-    JumpT = true
+    }
 }
 
 
