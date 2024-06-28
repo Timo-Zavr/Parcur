@@ -6,13 +6,13 @@ const grid = 15
 const PlaerHeight = grid * 3;
 const maxPlaerY = map.height - grid - PlaerHeight
 
-const pSpeed = 10
-const grav = 7
+const pSpeed = 7
+let gravity = 7;
+let JumpT = false
 
 const L = document.querySelector("#level")
 let Level = parseInt(L.textContent)
-let colide = true
-let jumping = false
+
 
 const plaer = {
     x: grid * 10,
@@ -20,7 +20,7 @@ const plaer = {
     width: grid,
     height: grid * 3,
     dx: 0,
-    dy: grav,
+    dy: gravity,
 }
 const coin = {
     x: grid *2,
@@ -153,13 +153,11 @@ function isCollides(object1, object2) {
 function colligeWisOll() {
     if (plaer.y < grid){
         plaer.y = grid
-        jumping = true
-        colide = false
+        JumpT = false
     } else if(plaer.y > maxPlaerY){
+        JumpT = false
         plaer.y = maxPlaerY
-        colide = true
-    }    
-
+    }
     if (plaer.x < grid){
         plaer.x = grid
     } else if (plaer.x > map.width - grid*2){
@@ -167,22 +165,21 @@ function colligeWisOll() {
     }
 
     if (isCollides(plaer, block1)) {
-        plaer.dy = plaer.dy;
-        plaer.y = block1.y - plaer.height;
-        colide = true
+        plaer.dy = plaer.dy
+        plaer.y = block1.y - plaer.height
     }
     if (isCollides(plaer, block2)) {
-        plaer.dy = plaer.dy;
-        plaer.y = block2.y - plaer.height;
-        colide = true
+        plaer.dy = plaer.dy
+        plaer.y = block2.y - plaer.height
     }
     if (isCollides(plaer, block3)) {
-        plaer.dy = plaer.dy;
-        plaer.y = block3.y - plaer.height;
-        colide = true
+        plaer.dy = plaer.dy
+        plaer.y = block3.y - plaer.height
+    }
+    if (!plaer.y > maxPlaerY || !isCollides(plaer, block1) || !isCollides(plaer, block2) || !isCollides(plaer, block3)){
+        JumpT = false
     }
 }
-
 function resetGame(){
     if (isCollides(plaer, coin)) {
         plaer.x = grid * 10,
@@ -196,6 +193,12 @@ function resetGame(){
         Level = 1
         L.textContent = Level
     }
+}
+function jump() {
+    for (let i = 0; i < 5; i++){
+        plaer.y += -pSpeed
+    }
+    plaer.y += plaer.dy
 }
 
 function loop() {
@@ -229,22 +232,11 @@ document.addEventListener('keyup', (event) => {
     }
 })
 
-
 document.addEventListener('keydown', (event) => {
-    if ((event.key === 'w' || event.key === 'ц') && colide === true && !jumping) {
-        plaer.dy = -grav*4
-        colide = false
-        jumping = true
+    if (event.key === 'w' || event.key === 'ц' && JumpT === true) {
+        jump()
     }
 })
-document.addEventListener('keyup', (event) => {
-    if (event.key === 'w' || event.key === 'ц' ) {
-        plaer.dy = grav
-        jumping = false
-    }
-})
-
-
 
 document.addEventListener('keydown', (event) => {
     if (event.key === 'f' || event.key === 'а') {
