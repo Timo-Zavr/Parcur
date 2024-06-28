@@ -6,9 +6,10 @@ const grid = 15
 const PlaerHeight = grid * 3;
 const maxPlaerY = map.height - grid - PlaerHeight
 
-const pSpeed = 7
-let gravity = 7;
-let JumpT = false
+const pSpeed = 5
+const jSpeed = grid * 6
+let gravity = 5
+let JumpT = true
 
 const L = document.querySelector("#level")
 let Level = parseInt(L.textContent)
@@ -153,10 +154,9 @@ function isCollides(object1, object2) {
 function colligeWisOll() {
     if (plaer.y < grid){
         plaer.y = grid
-        JumpT = false
     } else if(plaer.y > maxPlaerY){
-        JumpT = false
         plaer.y = maxPlaerY
+        JumpT = true
     }
     if (plaer.x < grid){
         plaer.x = grid
@@ -167,16 +167,19 @@ function colligeWisOll() {
     if (isCollides(plaer, block1)) {
         plaer.dy = plaer.dy
         plaer.y = block1.y - plaer.height
+        JumpT = true
     }
     if (isCollides(plaer, block2)) {
         plaer.dy = plaer.dy
         plaer.y = block2.y - plaer.height
+        JumpT = true
     }
     if (isCollides(plaer, block3)) {
         plaer.dy = plaer.dy
         plaer.y = block3.y - plaer.height
+        JumpT = true
     }
-    if (!plaer.y > maxPlaerY || !isCollides(plaer, block1) || !isCollides(plaer, block2) || !isCollides(plaer, block3)){
+    if (!isCollides(plaer, block1) && !isCollides(plaer, block2) && !isCollides(plaer, block3) && !plaer.y > maxPlaerY){
         JumpT = false
     }
 }
@@ -195,10 +198,10 @@ function resetGame(){
     }
 }
 function jump() {
-    for (let i = 0; i < 5; i++){
-        plaer.y += -pSpeed
-    }
-    plaer.y += plaer.dy
+    plaer.y += -jSpeed
+    JumpT = false
+    plaer.y += gravity
+
 }
 
 function loop() {
@@ -233,7 +236,7 @@ document.addEventListener('keyup', (event) => {
 })
 
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'w' || event.key === 'ц' && JumpT === true) {
+    if (JumpT === true && event.code === 'KeyW') {
         jump()
     }
 })
