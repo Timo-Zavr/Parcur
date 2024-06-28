@@ -7,8 +7,10 @@ const PlaerHeight = grid * 3;
 const maxPlaerY = map.height - grid - PlaerHeight
 
 const pSpeed = 5
-const jSpeed = grid * 6
+const jSpeed = 5
+const JH = grid * 7
 let gravity = 5
+let jumpUp = 0
 let JumpT = true
 
 const L = document.querySelector("#level")
@@ -62,6 +64,19 @@ const block3 = {
     width: grid * 15,
     height: grid,
 }
+
+function jump() {
+    intervalId = setInterval(() => {
+        plaer.y += -jSpeed
+        JumpT = false
+        jumpUp++
+    }, 30)
+    clearInterval(intervalId)
+    plaer.y += gravity
+    jumpUp = 0
+    JumpT = true
+}
+
 
 function levelUp() {
     if (Level === 1){
@@ -196,12 +211,6 @@ function resetGame(){
         Level = 1
         L.textContent = Level
     }
-}
-function jump() {
-    plaer.y += -jSpeed
-    JumpT = false
-    plaer.y += gravity
-
 }
 
 function loop() {
